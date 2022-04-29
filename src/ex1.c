@@ -21,7 +21,10 @@
 
 #define MAX 100
 
-typedef struct {
+typedef struct{
+  char nome[MAX];
+  char endereco[MAX];
+  int idade;
 } Pessoa;
 
 void ler_string(char s[MAX]);
@@ -30,5 +33,38 @@ void exibe_pessoa(Pessoa p);
 
 int main (int argc, char *argv[])
 {
+  Pessoa p1;
+  p1 = ler_pessoa();
+  exibe_pessoa(p1);
   return 0;
 }
+
+Pessoa ler_pessoa(){
+  char nome[MAX],endereco[MAX];
+  Pessoa p1;
+  printf("Nome: ");
+  fgets(nome,MAX,stdin);
+  if(nome[strlen(nome)-1]=='\n'){
+    nome[strlen(nome)-1]='\0';
+  }
+  strcpy(p1.nome,nome);
+  setbuf(stdin,0);
+  printf("Endereço: ");
+  fgets(endereco,MAX,stdin);
+  if(endereco[strlen(endereco)-1]=='\n'){
+    endereco[strlen(endereco)-1]='\0';
+  }
+  strcpy(p1.endereco,endereco);
+  setbuf(stdin,0);
+  printf("Idade: ");
+  scanf("%i",&p1.idade);
+  return p1;
+}
+
+
+void exibe_pessoa(Pessoa p){
+  printf("Pessoa{'%s',%i,'%s'}",p.nome,p.idade,p.endereco);
+}  
+  
+  
+

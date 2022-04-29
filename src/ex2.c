@@ -48,9 +48,71 @@
 #define MAX_PESSOAS 100
 
 typedef struct {
+  char nome[MAX],endereco[MAX];
+  int idade;
 } Pessoa;
+
+Pessoa ler_pessoa();
+int busca_linear(Pessoa p[MAX], int tam_string, char *chave);
 
 int main (int argc, char *argv[])
 {
+  char ans, nome[MAX];
+  int a;
+  Pessoa p[MAX_PESSOAS];
+  for(int i = 0;i<MAX_PESSOAS;i++){
+    p[i] = ler_pessoa();
+    setbuf(stdin,0);
+    printf("Deseja adicionar outra pessoa? (s/n): ");
+    scanf("%c",&ans);
+    getchar();
+    if(ans=='n'){
+      break;
+    }
+  }
+  printf("Digite um nome para ser encontrado: ");
+  setbuf(stdin,0);
+  fgets(nome,MAX,stdin);
+  if(nome[strlen(nome)-1]=='\n'){
+    nome[strlen(nome)-1]='\0';
+  }
+  a = busca_linear(p,sizeof(p)/sizeof(p[0]),nome);
+  if(a==-1){
+    printf("'%s' não foi encontrado",nome);
+    return 0;
+  }
+  printf("Endereço de %s: %s",p[a].nome,p[a].endereco);
   return 0;
+}
+
+Pessoa ler_pessoa(){
+  char nome[MAX],endereco[MAX];
+  Pessoa p;
+  printf("Nome: ");
+  fgets(nome,MAX,stdin);
+  if(nome[strlen(nome)-1]=='\n'){
+    nome[strlen(nome)-1]='\0';
+  }
+  strcpy(p.nome,nome);
+  setbuf(stdin,0);
+  printf("Endereço: ");
+  fgets(endereco,MAX,stdin);
+  if(endereco[strlen(endereco)-1]=='\n'){
+    endereco[strlen(endereco)-1]='\0';
+  }
+  strcpy(p.endereco,endereco);
+  setbuf(stdin,0);
+  printf("Idade: ");
+  scanf("%i",&p.idade);
+  return p;
+}
+
+int busca_linear(Pessoa p[MAX], int tam_string, char *chave) {
+  int i;
+  for(i=0;i<tam_string-5;i++){
+    if(strcmp(chave,p[i].nome)==0){
+      return i;
+    }
+  }
+  return -1;
 }
