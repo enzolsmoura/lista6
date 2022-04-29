@@ -32,9 +32,51 @@
 #define MAX_PESSOAS 100
 
 typedef struct {
+  char nome[MAX],endereco[MAX];
+  int idade;
 } Pessoa;
 
 int main (int argc, char *argv[])
 {
   return 0;
+}
+
+void quicksort(int vetor[MAX], int tam_vetor, int comeco, int fim) {
+  int j;
+  printf(">> Quicksort(começo = %i, fim = %i). Vetor = ",comeco,fim);
+  exibe_vetor(vetor,tam_vetor);
+  printf("\n");
+  if(comeco<fim){
+    
+    j = particiona(vetor,comeco,fim);
+
+    quicksort(vetor,tam_vetor,comeco,j-1);
+    quicksort(vetor,tam_vetor,j+1,fim);
+  }
+  printf("** Quicksort(começo = %i, fim = %i). Vetor = ",comeco,fim);
+  exibe_vetor(vetor,tam_vetor);
+  printf("\n");
+  
+}
+
+int particiona(int vetor[MAX], int comeco, int fim) {
+  int pivo,i,j;
+  pivo = (comeco+fim)/2;
+  troca_elementos(vetor,pivo,fim);
+  j = comeco;
+  for(i=comeco;i<fim;i++){
+    if(strcmp(vetor[i],vetor[fim])<=0){
+      troca_elementos(vetor,i,j);
+      j++;
+    }
+  }
+  troca_elementos(vetor,j,fim);
+  return j;
+}
+
+void troca_elementos(int vetor[MAX], int i, int j) {
+  int aux;
+  aux = vetor[i];
+  vetor[i] = vetor[j];
+  vetor[j] = aux;
 }
